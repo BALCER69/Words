@@ -1,0 +1,82 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Words.MainPage"
+             Title="Wordle Game"
+             BackgroundColor="LightGray">
+    <!-- Set background color for the entire page -->
+
+    <StackLayout Padding="20" Spacing="20" VerticalOptions="Center">
+
+        <!-- Game Grid -->
+        <Grid x:Name="GameGrid" HorizontalOptions="Center" VerticalOptions="Center" />
+
+        <!-- Grid for buttons to arrange them in a 2x2 layout -->
+        <Grid 
+            RowDefinitions="Auto,Auto"
+            ColumnDefinitions="Auto,Auto"
+            HorizontalOptions="Center" 
+            VerticalOptions="Center">
+
+            <!-- Submit Guess Button -->
+            <Button 
+                Text="Submit Guess" 
+                Clicked="OnSubmitGuess" 
+                BackgroundColor="Purple" 
+                TextColor="White" 
+                FontSize="18" 
+                HeightRequest="50" 
+                Padding="10,0"
+                BorderColor="Purple"
+                BorderWidth="2" 
+                Grid.Row="0" 
+                Grid.Column="0" 
+                Margin="5" />
+
+            <!-- New Game Button -->
+            <Button 
+                Text="New Game" 
+                Clicked="OnNewGame" 
+                BackgroundColor="DarkSeaGreen" 
+                TextColor="White" 
+                FontSize="18" 
+                HeightRequest="50" 
+                Padding="10,0"
+                BorderColor="DarkSeaGreen"
+                BorderWidth="2" 
+                Grid.Row="0" 
+                Grid.Column="1" 
+                Margin="5" />
+
+            <!-- View History Button -->
+            <Button 
+                Text="View History" 
+                Clicked="OnViewHistory" 
+                BackgroundColor="Cyan" 
+                TextColor="White" 
+                FontSize="18" 
+                HeightRequest="50" 
+                Padding="10,0"
+                BorderColor="Cyan"
+                BorderWidth="2" 
+                Grid.Row="1" 
+                Grid.Column="0" 
+                Margin="5" />
+
+            <!-- Clear History Button -->
+            <Button 
+                Text="Clear History" 
+                Clicked="OnClearHistory" 
+                BackgroundColor="Red" 
+                TextColor="White" 
+                FontSize="18" 
+                HeightRequest="50" 
+                Padding="10,0"
+                BorderColor="Red"
+                BorderWidth="2" 
+                Grid.Row="1" 
+                Grid.Column="1" 
+                Margin="5" />
+        </Grid>
+    </StackLayout>
+</ContentPage>

@@ -1,0 +1,50 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             x:Class="Words.StartPage"
+             BackgroundColor="LightGray"
+             Padding="30">
+
+    <!-- Page Content -->
+    <StackLayout Spacing="25" VerticalOptions="CenterAndExpand">
+
+        <!-- Title -->
+        <Label Text="Welcome to Wordle!"
+               FontSize="36"
+               HorizontalTextAlignment="Center"
+               VerticalOptions="CenterAndExpand"
+               TextColor="Black"
+               FontAttributes="Bold"
+               Padding="10, 0"/>
+
+        <!-- Username Input -->
+        <Entry x:Name="UsernameEntry"
+               Placeholder="Enter your username"
+               FontSize="18"
+               TextColor="Black"
+               HorizontalOptions="FillAndExpand"
+               BackgroundColor="White"
+         />
+
+        <!-- Start Game Button -->
+        <Button Text="Start Game"
+                FontSize="18"
+                BackgroundColor="LightBlue"
+                TextColor="White"
+                HorizontalOptions="FillAndExpand"
+                HeightRequest="50"
+                CornerRadius="10"
+                Padding="10,0"
+                Margin="0,20"
+                Clicked="OnStartGameClicked"/>
+
+        <!-- About Text -->
+        <Label Text="By starting, you agree to our terms of service."
+               FontSize="14"
+               HorizontalTextAlignment="Center"
+               TextColor="Gray"
+               Padding="0,10"
+               LineBreakMode="WordWrap"/>
+
+    </StackLayout>
+</ContentPage>
