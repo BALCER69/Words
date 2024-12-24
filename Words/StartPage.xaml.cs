@@ -1,9 +1,11 @@
 ﻿using Microsoft.Maui.Controls;
+using Plugin.Maui.Audio;
 
 namespace Words
 {
     public partial class StartPage : ContentPage
     {
+        private IAudioPlayer audioPlayer;
         public StartPage()
         {
             InitializeComponent();
@@ -15,6 +17,7 @@ namespace Words
 
             if (string.IsNullOrEmpty(username))
             {
+
                 await DisplayAlert("Invalid Username", "Please enter a valid username.", "OK");
                 return;
             }

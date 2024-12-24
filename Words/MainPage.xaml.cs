@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.Maui.Storage;
+using Plugin.Maui.Audio;
+
 
 namespace Words
 {
@@ -16,7 +18,7 @@ namespace Words
         private Entry[,] entryGrid = new Entry[6, 5];
         private List<string> validWords = new List<string>();
         private List<GuessHistory> guessHistory = new List<GuessHistory>();
-
+        private IAudioPlayer audioPlayer;
         private DateTime startTime;
         private DateTime endTime;
 
@@ -96,6 +98,8 @@ namespace Words
             if (!string.IsNullOrEmpty(entry?.Text) && entry.Text.Length > 1)
             {
                 entry.Text = entry.Text.Substring(0, 1);
+
+
             }
 
             if (!string.IsNullOrEmpty(entry?.Text) && !char.IsLetter(entry.Text[0]))
@@ -109,6 +113,9 @@ namespace Words
         {
             if (currentRow >= 6)
             {
+                audioPlayer = AudioManager.Current.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("lose.mp3"));
+                audioPlayer.Play();
+
                 DisplayAlert("Game Over", $"You've run out of guesses. The correct word was: {targetWord}", "OK");
                 return;
             }
@@ -117,12 +124,20 @@ namespace Words
 
             if (guess.Length != 5)
             {
+                audioPlayer = AudioManager.Current.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("error.mp3"));
+                audioPlayer.Play();
+
+
                 DisplayAlert("Invalid Guess", "Please enter exactly 5 letters.", "OK");
                 return;
             }
 
             if (!validWords.Contains(guess.ToUpper()))
             {
+                audioPlayer = AudioManager.Current.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("error.mp3"));
+                audioPlayer.Play();
+
+
                 DisplayAlert("Invalid Word", "The word you entered is not a valid word. Please try again.", "OK");
                 return;
             }
@@ -130,6 +145,8 @@ namespace Words
             if (guess.ToUpper() == targetWord)
             {
                 endTime = DateTime.Now;
+                audioPlayer = AudioManager.Current.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("win.mp3"));
+
                 DisplayAlert("Congratulations!", "You've guessed the correct word!", "OK");
                 guessHistory.Add(new GuessHistory
                 {
@@ -164,6 +181,9 @@ namespace Words
                     IsAnswer = true,
                     TotalTime = DateTime.Now - startTime
                 });
+                audioPlayer = AudioManager.Current.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("lose.mp3"));
+                audioPlayer.Play();
+
                 DisplayAlert("Game Over", $"You've run out of guesses. The correct word was: {targetWord}", "OK");
                 SaveHistory();
             }
@@ -305,9 +325,12 @@ namespace Words
 
         private void OnClearHistory(object sender, EventArgs e)
         {
+
             guessHistory.Clear();
             SaveHistory();
             DisplayAlert("History Cleared", "The game history has been erased.", "OK");
+
+
         }
 
         private List<Color> GetFeedback(string guess)
