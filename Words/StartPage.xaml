@@ -5,46 +5,77 @@
              BackgroundColor="LightGray"
              Padding="30">
 
-    <!-- Page Content -->
-    <StackLayout Spacing="25" VerticalOptions="CenterAndExpand">
+    <StackLayout Spacing="25" VerticalOptions="FillAndExpand">
 
-        <!-- Title -->
-        <Label Text="Welcome to Wordle!"
-               FontSize="36"
-               HorizontalTextAlignment="Center"
-               VerticalOptions="CenterAndExpand"
-               TextColor="Black"
-               FontAttributes="Bold"
-               Padding="10, 0"/>
+        <StackLayout VerticalOptions="Start" Padding="0,50,0,0">
 
-        <!-- Username Input -->
-        <Entry x:Name="UsernameEntry"
-               Placeholder="Enter your username"
-               FontSize="18"
-               TextColor="Black"
-               HorizontalOptions="FillAndExpand"
-               BackgroundColor="White"
-         />
+            <FlexLayout Direction="Row" JustifyContent="Center" AlignItems="Center" Wrap="NoWrap">
+                
+                <Frame BackgroundColor="Green" BorderColor="Black" Padding="0" HasShadow="False" Margin="5"
+                       WidthRequest="70" HeightRequest="70" CornerRadius="0">
+                    <Label Text="W" FontSize="30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                           TextColor="Black" />
+                </Frame>
+                <Frame BackgroundColor="Yellow" BorderColor="Black" Padding="0" HasShadow="False" Margin="5"
+                       WidthRequest="70" HeightRequest="70" CornerRadius="0">
+                    <Label Text="O" FontSize="30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                           TextColor="Black" />
+                </Frame>
+                <Frame BackgroundColor="Gray" BorderColor="Black" Padding="0" HasShadow="False" Margin="5"
+                       WidthRequest="70" HeightRequest="70" CornerRadius="0">
+                    <Label Text="R" FontSize="30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                           TextColor="Black" />
+                </Frame>
+                <Frame BackgroundColor="Green" BorderColor="Black" Padding="0" HasShadow="False" Margin="5"
+                       WidthRequest="70" HeightRequest="70" CornerRadius="0">
+                    <Label Text="D" FontSize="30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                           TextColor="Black" />
+                </Frame>
+                <Frame BackgroundColor="Green" BorderColor="Black" Padding="0" HasShadow="False" Margin="5"
+                       WidthRequest="70" HeightRequest="70" CornerRadius="0">
+                    <Label Text="L" FontSize="30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                           TextColor="Black" />
+                </Frame>
+                <Frame BackgroundColor="Yellow" BorderColor="Black" Padding="0" HasShadow="False" Margin="5"
+                       WidthRequest="70" HeightRequest="70" CornerRadius="0">
+                    <Label Text="E" FontSize="30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
+                           TextColor="Black" />
+                </Frame>
 
-        <!-- Start Game Button -->
-        <Button Text="Start Game"
-                FontSize="18"
-                BackgroundColor="LightBlue"
-                TextColor="White"
-                HorizontalOptions="FillAndExpand"
-                HeightRequest="50"
-                CornerRadius="10"
-                Padding="10,0"
-                Margin="0,20"
-                Clicked="OnStartGameClicked"/>
+            </FlexLayout>
 
-        <!-- About Text -->
-        <Label Text="By starting, you agree to our terms of service."
-               FontSize="14"
-               HorizontalTextAlignment="Center"
-               TextColor="Gray"
-               Padding="0,10"
-               LineBreakMode="WordWrap"/>
+        </StackLayout>
+
+        <StackLayout Spacing="15" VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
+
+            <Entry x:Name="UsernameEntry"
+                   Placeholder="Enter your username"
+                   FontSize="18"
+                   TextColor="Black"
+                   HorizontalOptions="Center"
+                   BackgroundColor="White"
+                   WidthRequest="420" />
+
+            <Button Text="Start Game"
+                    FontSize="18"
+                    BackgroundColor="Green"
+                    TextColor="White"
+                    HorizontalOptions="Center"
+                    HeightRequest="50"
+                    WidthRequest="420" 
+                    CornerRadius="10"
+                    Padding="10,0"
+                    Margin="0,20"
+                    Clicked="OnStartGameClicked"/>
+
+                <Label Text="By starting, you agree to our terms of service."
+                   FontSize="14"
+                   HorizontalTextAlignment="Center"
+                   TextColor="Gray"
+                   Padding="0,10"
+                   LineBreakMode="WordWrap"/>
+
+        </StackLayout>
 
     </StackLayout>
 </ContentPage>
