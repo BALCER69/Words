@@ -8,7 +8,6 @@ using System.Linq;
 using Microsoft.Maui.Storage;
 using Plugin.Maui.Audio;
 
-
 namespace Words
 {
     public partial class MainPage : ContentPage
@@ -29,15 +28,18 @@ namespace Words
             InitializeComponent();
             this.username = username;
             CreateGrid();
-            LoadWordListAsync();
             LoadHistory();
+            LoadWordListAsync();
         }
 
+        // This method is called when the page is about to appear
         private void OnPageAppearing(object sender, EventArgs e)
         {
             Title = $"Welcome, {username}!";
+            LoadHistory();
         }
 
+        // Create the grid of Entry controls for user input (6 rows, 5 columns)
         private void CreateGrid()
         {
             GameGrid.RowDefinitions.Clear();
@@ -91,20 +93,21 @@ namespace Words
             }
         }
 
+        // Event handler for when the text in an Entry changes
         private void OnLetterTextChanged(object sender, TextChangedEventArgs e)
         {
             var entry = sender as Entry;
 
+            // Ensure only one character is entered per Entry
             if (!string.IsNullOrEmpty(entry?.Text) && entry.Text.Length > 1)
             {
                 entry.Text = entry.Text.Substring(0, 1);
-
-
             }
 
+            // Check if the entered character is a valid letter
             if (!string.IsNullOrEmpty(entry?.Text) && !char.IsLetter(entry.Text[0]))
             {
-                entry.Text = string.Empty;
+                entry.Text = string.Empty;  // Clear invalid input
                 DisplayAlert("Invalid Input", "Please enter a valid letter.", "OK");
             }
         }
@@ -113,38 +116,41 @@ namespace Words
         {
             if (currentRow >= 6)
             {
+                // Play lose sound and show a Game Over message if no guesses remain
                 audioPlayer = AudioManager.Current.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("lose.mp3"));
                 audioPlayer.Play();
 
                 DisplayAlert("Game Over", $"You've run out of guesses. The correct word was: {targetWord}", "OK");
+                SaveHistory();
                 return;
             }
 
             string guess = GetCurrentGuess(currentRow);
 
+            // Ensure the guess is exactly 5 letters
             if (guess.Length != 5)
             {
                 audioPlayer = AudioManager.Current.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("error.mp3"));
                 audioPlayer.Play();
 
-
                 DisplayAlert("Invalid Guess", "Please enter exactly 5 letters.", "OK");
                 return;
             }
 
+            // Check if the word is valid
             if (!validWords.Contains(guess.ToUpper()))
             {
                 audioPlayer = AudioManager.Current.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("error.mp3"));
                 audioPlayer.Play();
 
-
                 DisplayAlert("Invalid Word", "The word you entered is not a valid word. Please try again.", "OK");
                 return;
             }
 
+            // Check if the guess matches the target word
             if (guess.ToUpper() == targetWord)
             {
-                endTime = DateTime.Now;
+                endTime = DateTime.Now;  // Record the end time
                 audioPlayer = AudioManager.Current.CreatePlayer(await FileSystem.OpenAppPackageFileAsync("win.mp3"));
 
                 DisplayAlert("Congratulations!", "You've guessed the correct word!", "OK");
@@ -160,7 +166,9 @@ namespace Words
                 return;
             }
 
+            // Provide feedback for the guess color feedback for each letter
             ProvideFeedback(guess, currentRow);
+
             guessHistory.Add(new GuessHistory
             {
                 Guess = guess,
@@ -171,6 +179,7 @@ namespace Words
             });
             currentRow++;
 
+            // If no more guesses are available, show the correct word
             if (currentRow == 6 && guess.ToUpper() != targetWord)
             {
                 guessHistory.Add(new GuessHistory
@@ -189,6 +198,7 @@ namespace Words
             }
         }
 
+        // Get the current guess by reading text from the grid
         private string GetCurrentGuess(int row)
         {
             string guess = string.Empty;
@@ -200,6 +210,7 @@ namespace Words
             return guess;
         }
 
+        // Provide feedback (color-coded) based on the user's guess
         private void ProvideFeedback(string guess, int row)
         {
             for (int col = 0; col < 5; col++)
@@ -226,6 +237,7 @@ namespace Words
             }
         }
 
+        // Start a new game by resetting everything
         private void OnNewGame(object sender, EventArgs e)
         {
             LoadWordListAsync();
@@ -237,10 +249,9 @@ namespace Words
                 entry.Text = string.Empty;
                 entry.BackgroundColor = Colors.LightGray;
             }
-            guessHistory.Clear();
-            SaveHistory();
         }
 
+        // View the player's game history
         private void OnViewHistory(object sender, EventArgs e)
         {
             var historyContent = new StackLayout { Padding = 10 };
@@ -262,6 +273,7 @@ namespace Words
                 };
                 historyStack.Children.Add(dateLabel);
 
+                // Display the guessed word and feedback colors
                 if (history.IsAnswer)
                 {
                     var answerLabel = new Label
@@ -282,6 +294,7 @@ namespace Words
                     };
                     historyStack.Children.Add(guessLabel);
 
+                    // Show the feedback colors for the guess
                     foreach (var color in history.Feedback)
                     {
                         var colorBox = new BoxView
@@ -298,6 +311,7 @@ namespace Words
                 historyContent.Children.Add(historyStack);
             }
 
+            // Button to return to the main game screen
             var returnButton = new Button
             {
                 Text = "Return to Game",
@@ -323,16 +337,15 @@ namespace Words
             Navigation.PushAsync(historyPage);
         }
 
+        // Clear the game history
         private void OnClearHistory(object sender, EventArgs e)
         {
-
             guessHistory.Clear();
-            SaveHistory();
+            SaveHistory();  // Save the cleared history
             DisplayAlert("History Cleared", "The game history has been erased.", "OK");
-
-
         }
 
+        // Get feedback for the current guess colorcoded
         private List<Color> GetFeedback(string guess)
         {
             var feedback = new List<Color>();
@@ -368,13 +381,14 @@ namespace Words
                     validWords = validWords.FindAll(word => word.Length == 5).ConvertAll(word => word.Trim().ToUpper());
 
                     Random random = new Random();
-                    targetWord = validWords[random.Next(validWords.Count)];
+                    targetWord = validWords[random.Next(validWords.Count)];  // Pick a random target word
 
                     Console.WriteLine($"Selected target word: {targetWord}");
                 }
             }
             catch (Exception ex)
             {
+                // Show an error if the words couldn't be loaded
                 DisplayAlert("Error", "Failed to load the word list. Please try again.", "OK");
                 Console.WriteLine($"Error loading words: {ex.Message}");
             }
@@ -383,7 +397,7 @@ namespace Words
         private void SaveHistory()
         {
             var historyJson = System.Text.Json.JsonSerializer.Serialize(guessHistory);
-            Preferences.Set($"guessHistory_{username}", historyJson);
+            Preferences.Set($"guessHistory_{username}", historyJson);  // Save using the username
         }
 
         private void LoadHistory()
@@ -396,12 +410,13 @@ namespace Words
         }
     }
 
+    // Class to hold the history of each guess
     public class GuessHistory
     {
         public string Guess { get; set; }
         public List<Color> Feedback { get; set; }
         public DateTime DateTime { get; set; }
-        public bool IsAnswer { get; set; }
+        public bool IsAnswer { get; set; } 
         public TimeSpan TotalTime { get; set; }
     }
 }

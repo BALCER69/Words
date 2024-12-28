@@ -5,37 +5,46 @@
              BackgroundColor="LightGray"
              Padding="30">
 
+ 
     <StackLayout Spacing="25" VerticalOptions="FillAndExpand">
 
+        <!-- Section for displaying the letter icons (W, O, R, D, L, E) -->
         <StackLayout VerticalOptions="Start" Padding="0,50,0,0">
 
+            <!-- FlexLayout to arrange letter icons in a row with no wrap -->
             <FlexLayout Direction="Row" JustifyContent="Center" AlignItems="Center" Wrap="NoWrap">
-                
+
+           
                 <Frame BackgroundColor="Green" BorderColor="Black" Padding="0" HasShadow="False" Margin="5"
                        WidthRequest="70" HeightRequest="70" CornerRadius="0">
                     <Label Text="W" FontSize="30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
                            TextColor="Black" />
                 </Frame>
+
                 <Frame BackgroundColor="Yellow" BorderColor="Black" Padding="0" HasShadow="False" Margin="5"
                        WidthRequest="70" HeightRequest="70" CornerRadius="0">
                     <Label Text="O" FontSize="30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
                            TextColor="Black" />
                 </Frame>
+
                 <Frame BackgroundColor="Gray" BorderColor="Black" Padding="0" HasShadow="False" Margin="5"
                        WidthRequest="70" HeightRequest="70" CornerRadius="0">
                     <Label Text="R" FontSize="30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
                            TextColor="Black" />
                 </Frame>
+
                 <Frame BackgroundColor="Green" BorderColor="Black" Padding="0" HasShadow="False" Margin="5"
                        WidthRequest="70" HeightRequest="70" CornerRadius="0">
                     <Label Text="D" FontSize="30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
                            TextColor="Black" />
                 </Frame>
+
                 <Frame BackgroundColor="Green" BorderColor="Black" Padding="0" HasShadow="False" Margin="5"
                        WidthRequest="70" HeightRequest="70" CornerRadius="0">
                     <Label Text="L" FontSize="30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
                            TextColor="Black" />
                 </Frame>
+
                 <Frame BackgroundColor="Yellow" BorderColor="Black" Padding="0" HasShadow="False" Margin="5"
                        WidthRequest="70" HeightRequest="70" CornerRadius="0">
                     <Label Text="E" FontSize="30" HorizontalTextAlignment="Center" VerticalTextAlignment="Center" 
@@ -48,6 +57,7 @@
 
         <StackLayout Spacing="15" VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
 
+            <!-- Username Entry field for the user to input their username -->
             <Entry x:Name="UsernameEntry"
                    Placeholder="Enter your username"
                    FontSize="18"
@@ -56,6 +66,7 @@
                    BackgroundColor="White"
                    WidthRequest="420" />
 
+            <!-- 'Start Game' button to begin the game once username is entered -->
             <Button Text="Start Game"
                     FontSize="18"
                     BackgroundColor="Green"
@@ -68,7 +79,8 @@
                     Margin="0,20"
                     Clicked="OnStartGameClicked"/>
 
-                <Label Text="By starting, you agree to our terms of service."
+            <!-- Terms of Service disclaimer at the bottom -->
+            <Label Text="By starting, you agree to our terms of service."
                    FontSize="14"
                    HorizontalTextAlignment="Center"
                    TextColor="Gray"
